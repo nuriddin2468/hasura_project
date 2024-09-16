@@ -1,0 +1,83 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: KyselyMigration
+  fields:
+    - name: name
+      type: Varchar!
+    - name: timestamp
+      type: Varchar!
+  graphql:
+    typeName: KyselyMigration
+    inputTypeName: KyselyMigrationInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: kysely_migration
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: KyselyMigration
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - name
+          - timestamp
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: KyselyMigrationBoolExp
+  objectType: KyselyMigration
+  dataConnectorName: my_pg
+  dataConnectorObjectType: kysely_migration
+  comparableFields:
+    - fieldName: name
+      operators:
+        enableAll: true
+    - fieldName: timestamp
+      operators:
+        enableAll: true
+  graphql:
+    typeName: KyselyMigrationBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: KyselyMigration
+  objectType: KyselyMigration
+  source:
+    dataConnectorName: my_pg
+    collection: kysely_migration
+  filterExpressionType: KyselyMigrationBoolExp
+  orderableFields:
+    - fieldName: name
+      orderByDirections:
+        enableAll: true
+    - fieldName: timestamp
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: kyselyMigration
+    selectUniques:
+      - queryRootField: kyselyMigrationByName
+        uniqueIdentifier:
+          - name
+    orderByExpressionType: KyselyMigrationOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: KyselyMigration
+  permissions:
+    - role: admin
+      select:
+        filter: null
+

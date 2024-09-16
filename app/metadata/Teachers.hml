@@ -1,0 +1,128 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Teachers
+  fields:
+    - name: id
+      type: Int4!
+  graphql:
+    typeName: Teachers
+    inputTypeName: TeachersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: teachers
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Teachers
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: TeachersBoolExp
+  objectType: Teachers
+  dataConnectorName: my_pg
+  dataConnectorObjectType: teachers
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+  graphql:
+    typeName: TeachersBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Teachers
+  objectType: Teachers
+  source:
+    dataConnectorName: my_pg
+    collection: teachers
+  filterExpressionType: TeachersBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: teachers
+    selectUniques:
+      - queryRootField: teachersById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: TeachersOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Teachers
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: groups
+  sourceType: Teachers
+  target:
+    model:
+      name: Groups
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: teacherId
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: lessons
+  sourceType: Teachers
+  target:
+    model:
+      name: Lessons
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: teacherId
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: user
+  sourceType: Teachers
+  target:
+    model:
+      name: Users
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: id
+

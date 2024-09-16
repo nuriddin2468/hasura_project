@@ -1,0 +1,110 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Students
+  fields:
+    - name: id
+      type: Int4!
+  graphql:
+    typeName: Students
+    inputTypeName: StudentsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: students
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Students
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: StudentsBoolExp
+  objectType: Students
+  dataConnectorName: my_pg
+  dataConnectorObjectType: students
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+  graphql:
+    typeName: StudentsBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Students
+  objectType: Students
+  source:
+    dataConnectorName: my_pg
+    collection: students
+  filterExpressionType: StudentsBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: students
+    selectUniques:
+      - queryRootField: studentsById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: StudentsOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Students
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: user
+  sourceType: Students
+  target:
+    model:
+      name: Users
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: studentsOnLessons
+  sourceType: Students
+  target:
+    model:
+      name: StudentsOnLessons
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: studentId
+

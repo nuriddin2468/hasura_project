@@ -1,0 +1,1 @@
+ddn connector setenv --connector connector.yaml -- npx kysely migrate $1

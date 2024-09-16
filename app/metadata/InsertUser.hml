@@ -1,0 +1,56 @@
+---
+kind: Command
+version: v1
+definition:
+  name: InsertUser
+  outputType: InsertUserOutput!
+  arguments:
+    - name: name
+      type: String!
+    - name: password
+      type: String!
+    - name: username
+      type: String!
+  source:
+    dataConnectorName: my_ts
+    dataConnectorCommand:
+      procedure: insertUser
+  graphql:
+    rootFieldName: insertUser
+    rootFieldKind: Mutation
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertUser
+  permissions:
+    - role: admin
+      allowExecution: true
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertUserOutput
+  fields:
+    - name: id
+      type: Float!
+  graphql:
+    typeName: InsertUserOutput
+    inputTypeName: InsertUserOutputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_ts
+      dataConnectorObjectType: insertUser_output
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertUserOutput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+

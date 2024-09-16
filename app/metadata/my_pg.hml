@@ -1,0 +1,1124 @@
+kind: DataConnectorLink
+version: v1
+definition:
+  name: my_pg
+  url:
+    readWriteUrls:
+      read:
+        valueFromEnv: APP_MY_PG_READ_URL
+      write:
+        valueFromEnv: APP_MY_PG_WRITE_URL
+  headers:
+    Authorization:
+      valueFromEnv: APP_MY_PG_AUTHORIZATION_HEADER
+  schema:
+    version: v0.1
+    schema:
+      scalar_types:
+        bool:
+          representation:
+            type: boolean
+          aggregate_functions:
+            bool_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: bool
+            bool_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: bool
+            every:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: bool
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: bool
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: bool
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: bool
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: bool
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: bool
+        group_status:
+          representation:
+            type: enum
+            one_of:
+              - PLANNED
+              - ACTIVE
+              - FINISHED
+              - CANCELED
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: group_status
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: group_status
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: group_status
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: group_status
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: group_status
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: group_status
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: group_status
+        int4:
+          representation:
+            type: int32
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            bit_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int4
+            bit_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int4
+            bit_xor:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int4
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int4
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int4
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int8
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: int4
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: int4
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: int4
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: int4
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: int4
+        int8:
+          representation:
+            type: int64
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            bit_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int8
+            bit_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int8
+            bit_xor:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int8
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int8
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: int8
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: int8
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: int8
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: int8
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: int8
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: int8
+        interval:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: interval
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: interval
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: interval
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: interval
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: interval
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: interval
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: interval
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: interval
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: interval
+        lesson_status:
+          representation:
+            type: enum
+            one_of:
+              - PLANNED
+              - DONE
+              - CANCELED
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: lesson_status
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: lesson_status
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: lesson_status
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: lesson_status
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: lesson_status
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: lesson_status
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: lesson_status
+        numeric:
+          representation:
+            type: bigdecimal
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: numeric
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: numeric
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: numeric
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: numeric
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: numeric
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: numeric
+        text:
+          representation:
+            type: string
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: text
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: text
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _ilike:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _in:
+              type: in
+            _iregex:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _like:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _nilike:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _niregex:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _nlike:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _nregex:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            _regex:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            starts_with:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+            ts_match_tt:
+              type: custom
+              argument_type:
+                type: named
+                name: text
+        timestamp:
+          representation:
+            type: timestamp
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: timestamp
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: timestamp
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: timestamp
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: timestamp
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: timestamp
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: timestamp
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: timestamp
+        user_role:
+          representation:
+            type: enum
+            one_of:
+              - ADMIN
+              - TEACHER
+              - STUDENT
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: user_role
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: user_role
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: user_role
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: user_role
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: user_role
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: user_role
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: user_role
+        varchar:
+          representation:
+            type: string
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: text
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: text
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _gte:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _ilike:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _in:
+              type: in
+            _iregex:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _like:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _lt:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _lte:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _neq:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _nilike:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _niregex:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _nlike:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _nregex:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            _regex:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            starts_with:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+            ts_match_tt:
+              type: custom
+              argument_type:
+                type: named
+                name: varchar
+      object_types:
+        courses:
+          fields:
+            course_duration:
+              type:
+                type: named
+                name: interval
+            id:
+              type:
+                type: named
+                name: int4
+            lesson_duration:
+              type:
+                type: named
+                name: interval
+            title:
+              type:
+                type: named
+                name: varchar
+        groups:
+          fields:
+            course_id:
+              type:
+                type: named
+                name: int4
+            id:
+              type:
+                type: named
+                name: int4
+            status:
+              type:
+                type: named
+                name: group_status
+            teacher_id:
+              type:
+                type: named
+                name: int4
+            title:
+              type:
+                type: named
+                name: varchar
+        kysely_migration:
+          fields:
+            name:
+              type:
+                type: named
+                name: varchar
+            timestamp:
+              type:
+                type: named
+                name: varchar
+        kysely_migration_lock:
+          fields:
+            id:
+              type:
+                type: named
+                name: varchar
+            is_locked:
+              type:
+                type: named
+                name: int4
+        lessons:
+          fields:
+            end_time:
+              type:
+                type: named
+                name: timestamp
+            group_id:
+              type:
+                type: named
+                name: int4
+            id:
+              type:
+                type: named
+                name: int4
+            room_id:
+              type:
+                type: named
+                name: int4
+            start_time:
+              type:
+                type: named
+                name: timestamp
+            status:
+              type:
+                type: named
+                name: lesson_status
+            teacher_id:
+              type:
+                type: named
+                name: int4
+            title:
+              type:
+                type: named
+                name: varchar
+        rooms:
+          fields:
+            id:
+              type:
+                type: named
+                name: int4
+            title:
+              type:
+                type: named
+                name: varchar
+        students:
+          fields:
+            id:
+              type:
+                type: named
+                name: int4
+        students_on_lessons:
+          fields:
+            lesson_id:
+              type:
+                type: named
+                name: int4
+            participated:
+              type:
+                type: named
+                name: bool
+            student_id:
+              type:
+                type: named
+                name: int4
+        teachers:
+          fields:
+            id:
+              type:
+                type: named
+                name: int4
+        users:
+          fields:
+            created_at:
+              type:
+                type: named
+                name: timestamp
+            id:
+              type:
+                type: named
+                name: int4
+            name:
+              type:
+                type: named
+                name: varchar
+            password:
+              type:
+                type: named
+                name: varchar
+            role:
+              type:
+                type: named
+                name: user_role
+            username:
+              type:
+                type: named
+                name: varchar
+      collections:
+        - name: courses
+          arguments: {}
+          type: courses
+          uniqueness_constraints:
+            courses_pkey:
+              unique_columns:
+                - id
+          foreign_keys: {}
+        - name: groups
+          arguments: {}
+          type: groups
+          uniqueness_constraints:
+            groups_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            groups_course_id_fkey:
+              column_mapping:
+                course_id: id
+              foreign_collection: courses
+            groups_teacher_id_fkey:
+              column_mapping:
+                teacher_id: id
+              foreign_collection: teachers
+        - name: kysely_migration
+          arguments: {}
+          type: kysely_migration
+          uniqueness_constraints:
+            kysely_migration_pkey:
+              unique_columns:
+                - name
+          foreign_keys: {}
+        - name: kysely_migration_lock
+          arguments: {}
+          type: kysely_migration_lock
+          uniqueness_constraints:
+            kysely_migration_lock_pkey:
+              unique_columns:
+                - id
+          foreign_keys: {}
+        - name: lessons
+          arguments: {}
+          type: lessons
+          uniqueness_constraints:
+            lessons_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            lessons_group_id_fkey:
+              column_mapping:
+                group_id: id
+              foreign_collection: groups
+            lessons_room_id_fkey:
+              column_mapping:
+                room_id: id
+              foreign_collection: rooms
+            lessons_teacher_id_fkey:
+              column_mapping:
+                teacher_id: id
+              foreign_collection: teachers
+        - name: rooms
+          arguments: {}
+          type: rooms
+          uniqueness_constraints:
+            rooms_pkey:
+              unique_columns:
+                - id
+          foreign_keys: {}
+        - name: students
+          arguments: {}
+          type: students
+          uniqueness_constraints:
+            students_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            students_id_fkey:
+              column_mapping:
+                id: id
+              foreign_collection: users
+        - name: students_on_lessons
+          arguments: {}
+          type: students_on_lessons
+          uniqueness_constraints: {}
+          foreign_keys:
+            students_on_lessons_lesson_id_fkey:
+              column_mapping:
+                lesson_id: id
+              foreign_collection: lessons
+            students_on_lessons_student_id_fkey:
+              column_mapping:
+                student_id: id
+              foreign_collection: students
+        - name: teachers
+          arguments: {}
+          type: teachers
+          uniqueness_constraints:
+            teachers_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            teachers_id_fkey:
+              column_mapping:
+                id: id
+              foreign_collection: users
+        - name: users
+          arguments: {}
+          type: users
+          uniqueness_constraints:
+            users_pkey:
+              unique_columns:
+                - id
+            users_username_key:
+              unique_columns:
+                - username
+          foreign_keys: {}
+      functions: []
+      procedures: []
+    capabilities:
+      version: 0.1.6
+      capabilities:
+        query:
+          aggregates: {}
+          variables: {}
+          explain: {}
+          nested_fields:
+            filter_by: {}
+            order_by: {}
+        mutation:
+          transactional: {}
+          explain: {}
+        relationships:
+          relation_comparisons: {}
+          order_by_aggregate: {}

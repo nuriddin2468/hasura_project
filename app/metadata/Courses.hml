@@ -1,0 +1,132 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Courses
+  fields:
+    - name: courseDuration
+      type: Interval!
+    - name: id
+      type: Int4!
+    - name: lessonDuration
+      type: Interval!
+    - name: title
+      type: Varchar!
+  graphql:
+    typeName: Courses
+    inputTypeName: CoursesInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: courses
+      fieldMapping:
+        courseDuration:
+          column:
+            name: course_duration
+        id:
+          column:
+            name: id
+        lessonDuration:
+          column:
+            name: lesson_duration
+        title:
+          column:
+            name: title
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Courses
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - courseDuration
+          - id
+          - lessonDuration
+          - title
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: CoursesBoolExp
+  objectType: Courses
+  dataConnectorName: my_pg
+  dataConnectorObjectType: courses
+  comparableFields:
+    - fieldName: courseDuration
+      operators:
+        enableAll: true
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: lessonDuration
+      operators:
+        enableAll: true
+    - fieldName: title
+      operators:
+        enableAll: true
+  graphql:
+    typeName: CoursesBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Courses
+  objectType: Courses
+  source:
+    dataConnectorName: my_pg
+    collection: courses
+  filterExpressionType: CoursesBoolExp
+  orderableFields:
+    - fieldName: courseDuration
+      orderByDirections:
+        enableAll: true
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: lessonDuration
+      orderByDirections:
+        enableAll: true
+    - fieldName: title
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: courses
+    selectUniques:
+      - queryRootField: coursesById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: CoursesOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Courses
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: groups
+  sourceType: Courses
+  target:
+    model:
+      name: Groups
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: courseId
+

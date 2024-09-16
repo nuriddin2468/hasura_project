@@ -1,0 +1,76 @@
+kind: DataConnectorLink
+version: v1
+definition:
+  name: my_ts
+  url:
+    readWriteUrls:
+      read:
+        valueFromEnv: APP_MY_TS_READ_URL
+      write:
+        valueFromEnv: APP_MY_TS_WRITE_URL
+  headers:
+    Authorization:
+      valueFromEnv: APP_MY_TS_AUTHORIZATION_HEADER
+  schema:
+    version: v0.1
+    schema:
+      scalar_types:
+        Float:
+          representation:
+            type: float64
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+        String:
+          representation:
+            type: string
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+      object_types:
+        insertUser_output:
+          fields:
+            id:
+              type:
+                type: named
+                name: Float
+      collections: []
+      functions:
+        - name: hello
+          arguments:
+            name:
+              type:
+                type: nullable
+                underlying_type:
+                  type: named
+                  name: String
+          result_type:
+            type: named
+            name: String
+      procedures:
+        - name: insertUser
+          arguments:
+            name:
+              type:
+                type: named
+                name: String
+            password:
+              type:
+                type: named
+                name: String
+            username:
+              type:
+                type: named
+                name: String
+          result_type:
+            type: named
+            name: insertUser_output
+    capabilities:
+      version: 0.1.6
+      capabilities:
+        query:
+          variables: {}
+          nested_fields: {}
+        mutation: {}

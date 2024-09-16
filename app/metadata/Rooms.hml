@@ -1,0 +1,101 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Rooms
+  fields:
+    - name: id
+      type: Int4!
+    - name: title
+      type: Varchar!
+  graphql:
+    typeName: Rooms
+    inputTypeName: RoomsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: rooms
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Rooms
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - title
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: RoomsBoolExp
+  objectType: Rooms
+  dataConnectorName: my_pg
+  dataConnectorObjectType: rooms
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: title
+      operators:
+        enableAll: true
+  graphql:
+    typeName: RoomsBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Rooms
+  objectType: Rooms
+  source:
+    dataConnectorName: my_pg
+    collection: rooms
+  filterExpressionType: RoomsBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: title
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: rooms
+    selectUniques:
+      - queryRootField: roomsById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: RoomsOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Rooms
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: lessons
+  sourceType: Rooms
+  target:
+    model:
+      name: Lessons
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: roomId
+

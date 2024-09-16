@@ -1,0 +1,180 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Groups
+  fields:
+    - name: courseId
+      type: Int4!
+    - name: id
+      type: Int4!
+    - name: status
+      type: GroupStatus!
+    - name: teacherId
+      type: Int4!
+    - name: title
+      type: Varchar!
+  graphql:
+    typeName: Groups
+    inputTypeName: GroupsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: groups
+      fieldMapping:
+        courseId:
+          column:
+            name: course_id
+        id:
+          column:
+            name: id
+        status:
+          column:
+            name: status
+        teacherId:
+          column:
+            name: teacher_id
+        title:
+          column:
+            name: title
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Groups
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - courseId
+          - id
+          - status
+          - teacherId
+          - title
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: GroupsBoolExp
+  objectType: Groups
+  dataConnectorName: my_pg
+  dataConnectorObjectType: groups
+  comparableFields:
+    - fieldName: courseId
+      operators:
+        enableAll: true
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: status
+      operators:
+        enableAll: true
+    - fieldName: teacherId
+      operators:
+        enableAll: true
+    - fieldName: title
+      operators:
+        enableAll: true
+  graphql:
+    typeName: GroupsBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Groups
+  objectType: Groups
+  source:
+    dataConnectorName: my_pg
+    collection: groups
+  filterExpressionType: GroupsBoolExp
+  orderableFields:
+    - fieldName: courseId
+      orderByDirections:
+        enableAll: true
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: status
+      orderByDirections:
+        enableAll: true
+    - fieldName: teacherId
+      orderByDirections:
+        enableAll: true
+    - fieldName: title
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: groups
+    selectUniques:
+      - queryRootField: groupsById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: GroupsOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Groups
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: course
+  sourceType: Groups
+  target:
+    model:
+      name: Courses
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: courseId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: teacher
+  sourceType: Groups
+  target:
+    model:
+      name: Teachers
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: teacherId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: lessons
+  sourceType: Groups
+  target:
+    model:
+      name: Lessons
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: groupId
+

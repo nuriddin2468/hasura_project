@@ -1,0 +1,144 @@
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Interval
+  graphql:
+    typeName: Interval
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Int4
+  graphql:
+    typeName: Int4
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Varchar
+  graphql:
+    typeName: Varchar
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: interval
+  representation: Interval
+  graphql:
+    comparisonExpressionTypeName: IntervalComparisonExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: int4
+  representation: Int4
+  graphql:
+    comparisonExpressionTypeName: Int4ComparisonExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: varchar
+  representation: Varchar
+  graphql:
+    comparisonExpressionTypeName: VarcharComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: GroupStatus
+  graphql:
+    typeName: GroupStatus
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: group_status
+  representation: GroupStatus
+  graphql:
+    comparisonExpressionTypeName: GroupStatusComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Timestamp
+  graphql:
+    typeName: Timestamp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: LessonStatus
+  graphql:
+    typeName: LessonStatus
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: timestamp
+  representation: Timestamp
+  graphql:
+    comparisonExpressionTypeName: TimestampComparisonExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: lesson_status
+  representation: LessonStatus
+  graphql:
+    comparisonExpressionTypeName: LessonStatusComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Bool
+  graphql:
+    typeName: Bool
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: bool
+  representation: Bool
+  graphql:
+    comparisonExpressionTypeName: BoolComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: UserRole
+  graphql:
+    typeName: UserRole
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: my_pg
+  dataConnectorScalarType: user_role
+  representation: UserRole
+  graphql:
+    comparisonExpressionTypeName: UserRoleComparisonExp
+

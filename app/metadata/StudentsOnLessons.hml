@@ -1,0 +1,135 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: StudentsOnLessons
+  fields:
+    - name: lessonId
+      type: Int4!
+    - name: participated
+      type: Bool!
+    - name: studentId
+      type: Int4!
+  graphql:
+    typeName: StudentsOnLessons
+    inputTypeName: StudentsOnLessonsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: students_on_lessons
+      fieldMapping:
+        lessonId:
+          column:
+            name: lesson_id
+        participated:
+          column:
+            name: participated
+        studentId:
+          column:
+            name: student_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: StudentsOnLessons
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - lessonId
+          - participated
+          - studentId
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: StudentsOnLessonsBoolExp
+  objectType: StudentsOnLessons
+  dataConnectorName: my_pg
+  dataConnectorObjectType: students_on_lessons
+  comparableFields:
+    - fieldName: lessonId
+      operators:
+        enableAll: true
+    - fieldName: participated
+      operators:
+        enableAll: true
+    - fieldName: studentId
+      operators:
+        enableAll: true
+  graphql:
+    typeName: StudentsOnLessonsBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: StudentsOnLessons
+  objectType: StudentsOnLessons
+  source:
+    dataConnectorName: my_pg
+    collection: students_on_lessons
+  filterExpressionType: StudentsOnLessonsBoolExp
+  orderableFields:
+    - fieldName: lessonId
+      orderByDirections:
+        enableAll: true
+    - fieldName: participated
+      orderByDirections:
+        enableAll: true
+    - fieldName: studentId
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: studentsOnLessons
+    selectUniques: []
+    orderByExpressionType: StudentsOnLessonsOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: StudentsOnLessons
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: lesson
+  sourceType: StudentsOnLessons
+  target:
+    model:
+      name: Lessons
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: lessonId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: student
+  sourceType: StudentsOnLessons
+  target:
+    model:
+      name: Students
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: studentId
+      target:
+        modelField:
+          - fieldName: id
+

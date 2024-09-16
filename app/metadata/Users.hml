@@ -1,0 +1,177 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Users
+  fields:
+    - name: createdAt
+      type: Timestamp!
+    - name: id
+      type: Int4!
+    - name: name
+      type: Varchar!
+    - name: password
+      type: Varchar!
+    - name: role
+      type: UserRole!
+    - name: username
+      type: Varchar!
+  graphql:
+    typeName: Users
+    inputTypeName: UsersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: users
+      fieldMapping:
+        createdAt:
+          column:
+            name: created_at
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        password:
+          column:
+            name: password
+        role:
+          column:
+            name: role
+        username:
+          column:
+            name: username
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Users
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createdAt
+          - id
+          - name
+          - password
+          - role
+          - username
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: UsersBoolExp
+  objectType: Users
+  dataConnectorName: my_pg
+  dataConnectorObjectType: users
+  comparableFields:
+    - fieldName: createdAt
+      operators:
+        enableAll: true
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: name
+      operators:
+        enableAll: true
+    - fieldName: password
+      operators:
+        enableAll: true
+    - fieldName: role
+      operators:
+        enableAll: true
+    - fieldName: username
+      operators:
+        enableAll: true
+  graphql:
+    typeName: UsersBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Users
+  objectType: Users
+  source:
+    dataConnectorName: my_pg
+    collection: users
+  filterExpressionType: UsersBoolExp
+  orderableFields:
+    - fieldName: createdAt
+      orderByDirections:
+        enableAll: true
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: name
+      orderByDirections:
+        enableAll: true
+    - fieldName: password
+      orderByDirections:
+        enableAll: true
+    - fieldName: role
+      orderByDirections:
+        enableAll: true
+    - fieldName: username
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: users
+    selectUniques:
+      - queryRootField: usersById
+        uniqueIdentifier:
+          - id
+      - queryRootField: usersByUsername
+        uniqueIdentifier:
+          - username
+    orderByExpressionType: UsersOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Users
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: students
+  sourceType: Users
+  target:
+    model:
+      name: Students
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: teachers
+  sourceType: Users
+  target:
+    model:
+      name: Teachers
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: id
+

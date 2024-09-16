@@ -1,0 +1,234 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Lessons
+  fields:
+    - name: endTime
+      type: Timestamp!
+    - name: groupId
+      type: Int4!
+    - name: id
+      type: Int4!
+    - name: roomId
+      type: Int4!
+    - name: startTime
+      type: Timestamp!
+    - name: status
+      type: LessonStatus!
+    - name: teacherId
+      type: Int4!
+    - name: title
+      type: Varchar!
+  graphql:
+    typeName: Lessons
+    inputTypeName: LessonsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: lessons
+      fieldMapping:
+        endTime:
+          column:
+            name: end_time
+        groupId:
+          column:
+            name: group_id
+        id:
+          column:
+            name: id
+        roomId:
+          column:
+            name: room_id
+        startTime:
+          column:
+            name: start_time
+        status:
+          column:
+            name: status
+        teacherId:
+          column:
+            name: teacher_id
+        title:
+          column:
+            name: title
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Lessons
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - endTime
+          - groupId
+          - id
+          - roomId
+          - startTime
+          - status
+          - teacherId
+          - title
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: LessonsBoolExp
+  objectType: Lessons
+  dataConnectorName: my_pg
+  dataConnectorObjectType: lessons
+  comparableFields:
+    - fieldName: endTime
+      operators:
+        enableAll: true
+    - fieldName: groupId
+      operators:
+        enableAll: true
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: roomId
+      operators:
+        enableAll: true
+    - fieldName: startTime
+      operators:
+        enableAll: true
+    - fieldName: status
+      operators:
+        enableAll: true
+    - fieldName: teacherId
+      operators:
+        enableAll: true
+    - fieldName: title
+      operators:
+        enableAll: true
+  graphql:
+    typeName: LessonsBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Lessons
+  objectType: Lessons
+  source:
+    dataConnectorName: my_pg
+    collection: lessons
+  filterExpressionType: LessonsBoolExp
+  orderableFields:
+    - fieldName: endTime
+      orderByDirections:
+        enableAll: true
+    - fieldName: groupId
+      orderByDirections:
+        enableAll: true
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: roomId
+      orderByDirections:
+        enableAll: true
+    - fieldName: startTime
+      orderByDirections:
+        enableAll: true
+    - fieldName: status
+      orderByDirections:
+        enableAll: true
+    - fieldName: teacherId
+      orderByDirections:
+        enableAll: true
+    - fieldName: title
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: lessons
+    selectUniques:
+      - queryRootField: lessonsById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: LessonsOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Lessons
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: group
+  sourceType: Lessons
+  target:
+    model:
+      name: Groups
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: groupId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: room
+  sourceType: Lessons
+  target:
+    model:
+      name: Rooms
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: roomId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: teacher
+  sourceType: Lessons
+  target:
+    model:
+      name: Teachers
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: teacherId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: studentsOnLessons
+  sourceType: Lessons
+  target:
+    model:
+      name: StudentsOnLessons
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: lessonId
+

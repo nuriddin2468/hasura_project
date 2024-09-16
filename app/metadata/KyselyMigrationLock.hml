@@ -1,0 +1,90 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: KyselyMigrationLock
+  fields:
+    - name: id
+      type: Varchar!
+    - name: isLocked
+      type: Int4!
+  graphql:
+    typeName: KyselyMigrationLock
+    inputTypeName: KyselyMigrationLockInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_pg
+      dataConnectorObjectType: kysely_migration_lock
+      fieldMapping:
+        id:
+          column:
+            name: id
+        isLocked:
+          column:
+            name: is_locked
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: KyselyMigrationLock
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - isLocked
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: KyselyMigrationLockBoolExp
+  objectType: KyselyMigrationLock
+  dataConnectorName: my_pg
+  dataConnectorObjectType: kysely_migration_lock
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: isLocked
+      operators:
+        enableAll: true
+  graphql:
+    typeName: KyselyMigrationLockBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: KyselyMigrationLock
+  objectType: KyselyMigrationLock
+  source:
+    dataConnectorName: my_pg
+    collection: kysely_migration_lock
+  filterExpressionType: KyselyMigrationLockBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: isLocked
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: kyselyMigrationLock
+    selectUniques:
+      - queryRootField: kyselyMigrationLockById
+        uniqueIdentifier:
+          - id
+    orderByExpressionType: KyselyMigrationLockOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: KyselyMigrationLock
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
