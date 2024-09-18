@@ -54,3 +54,21 @@ definition:
         allowedFields:
           - id
 
+---
+kind: Relationship
+version: v1
+definition:
+  name: user_relation
+  sourceType: InsertUserOutput
+  target: 
+    model:
+      name: Users
+      relationshipType: Object
+  mapping:
+    - source: 
+        fieldPath:
+          - fieldName: id
+      target: 
+        modelField:
+          - fieldName: id
+

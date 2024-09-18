@@ -22,10 +22,6 @@ definition:
   typeName: KyselyMigration
   permissions:
     - role: admin
-      output:
-        allowedFields:
-          - name
-          - timestamp
 
 ---
 kind: ObjectBooleanExpressionType
